@@ -180,12 +180,12 @@ int main(void){
 	}
 
   // Free memory, but use cudaFreeHost() instead of cudaFree()
-  cudaFreeHost(x);
-  cudaFreeHost(y);
-  cudaFreeHost(z);
+	cudaFreeHost(x);
+	cudaFreeHost(y);
+	cudaFreeHost(z);
 
-  cudaFree(d_x);
-  cudaFree(d_y);
+	cudaFree(d_x);
+	cudaFree(d_y);
   
   return 0;
 }
