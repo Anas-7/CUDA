@@ -44,7 +44,7 @@ int main(void)
 {
   int N = 1<<20;
   float *x, *y;
-  
+
   // Allocate Unified Memory – accessible from CPU or GPU
   cudaMallocManaged(&x, N*sizeof(float));
   cudaMallocManaged(&y, N*sizeof(float));
@@ -72,7 +72,7 @@ int main(void)
   // I simply divide N by the block size (being careful to round up in case N is not a multiple of blockSize).
   int blockSize = 256;
   int numBlocks = (N + blockSize - 1) / blockSize;
-
+  
 
 
   //   CUDA kernel launches are specified using the triple angle bracket syntax <<< >>>
