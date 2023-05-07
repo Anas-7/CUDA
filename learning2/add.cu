@@ -43,7 +43,8 @@ int main(void)
 
   int blockSize = 256;
   int numBlocks = (N + blockSize - 1) / blockSize;
-
+  // cudaMalloc() only gives you a chunk of memory on GPU memory with undefined initial value. 
+  // You have to copy your intended memory content from host or somewhere on device.
   cudaMemcpy(d_x, x, N*sizeof(float), cudaMemcpyHostToDevice);
   cudaMemcpy(d_y, y, N*sizeof(float), cudaMemcpyHostToDevice);
 
