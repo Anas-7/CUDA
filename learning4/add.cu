@@ -131,7 +131,7 @@ int main(void){
 		if (result != cudaSuccess)
 			printf("Error creating stream\n");
 	}
-
+	// Approach 1. Suitable for GPUs with one copy engine and one kernel engine
 	for(int i = 0; i < nStreams; i++) {
 		// The point where each stream needs to start from
 		int offset = i * streamSize;
@@ -144,6 +144,23 @@ int main(void){
 		add<<<streamSize/blockSize, blockSize, 0, stream[i]>>>(streamSize, &d_x[offset], &d_y[offset]);
 		cudaMemcpyAsync(&z[offset], &d_y[offset], streamSize*sizeof(float), cudaMemcpyDeviceToHost, stream[i]);
 	}
+
+	// Approach 2. Suitable for GPUs with multiple copy engines and one kernel engine
+	// for(int i = 0; i < nStreams; i++) {
+	// 	int offset = i * streamSize;
+	// 	cudaMemcpyAsync(&d_x[offset], &x[offset], streamSize*sizeof(float), cudaMemcpyHostToDevice, stream[i]);
+	// 	cudaMemcpyAsync(&d_y[offset], &y[offset], streamSize*sizeof(float), cudaMemcpyHostToDevice, stream[i]);
+	// }
+
+	// for(int i = 0; i < nStreams; i++) {
+	// 	int offset = i * streamSize;
+	// 	add<<<streamSize/blockSize, blockSize, 0, stream[i]>>>(streamSize, &d_x[offset], &d_y[offset]);
+	// }
+
+	// for(int i = 0; i < nStreams; i++) {
+	// 	int offset = i * streamSize;
+	// 	cudaMemcpyAsync(&z[offset], &d_y[offset], streamSize*sizeof(float), cudaMemcpyDeviceToHost, stream[i]);
+	// }
 
   // Wait for GPU to finish before accessing on host
   cudaDeviceSynchronize();
