@@ -1,6 +1,8 @@
 #include <iostream>
 #include <math.h>
 
+// This file deals with CudaMemcpy and CudaMallocManaged
+
 __global__
 void add(int n, float *x, float *y)
 {
