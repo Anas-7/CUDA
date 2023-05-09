@@ -14,10 +14,16 @@ void write_color(std::ostream &out, color pixel_color, int samples_per_pixel) {
     auto b = pixel_color.z();
 
     // Divide the color by the number of samples as the pixel color we receive has the summation of colors over all samples
+    // auto scale = 1.0 / samples_per_pixel;
+    // r *= scale;
+    // g *= scale;
+    // b *= scale;
+
+    // Divide the color by the number of samples and gamma-correct for gamma=2.0.
     auto scale = 1.0 / samples_per_pixel;
-    r *= scale;
-    g *= scale;
-    b *= scale;
+    r = sqrt(scale * r);
+    g = sqrt(scale * g);
+    b = sqrt(scale * b);
 
     // Write the translated [0,255] value of each color component.
     out << static_cast<int>(256 * clamp(r, 0.0, 0.999)) << ' '

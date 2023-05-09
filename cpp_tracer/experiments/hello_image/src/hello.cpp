@@ -40,8 +40,14 @@ color ray_color(const ray& r, const hittable& world, int depth) {
      // If we've exceeded the ray bounce limit, no more light is gathered.
     if (depth <= 0)
         return color(0,0,0);
+    /*
+    Some of the reflected rays hit the object they are reflecting off of not at exactly t=0
+    but instead at t=−0.0000001 or t=0.00000001 or whatever floating point approximation the sphere intersector gives us. 
+    So we need to ignore hits very near zero by setting t_min to 0.01
 
-    if (world.hit(r, 0, infinity, rec)) {
+    This problem is called Shadow Acne
+    */
+    if (world.hit(r, 0.001, infinity, rec)) {
         point3 target = rec.p + rec.normal + random_in_unit_sphere();
         return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth-1);
     }
