@@ -29,7 +29,7 @@ double hit_sphere(const point3& center, double radius, const ray& r){
     auto half_b = dot(pc, r.direction());
     // auto c = dot(pc,pc) - radius*radius;    Dot product of a vector with itself can be replaced with its length squared
     auto c = pc.length() * pc.length() - radius*radius;
-    auto discr = b*b - 4*a*c;
+    auto discr = half_b*half_b - a*c;
     if (discr < 0){
         return -1;
     }
