@@ -5,6 +5,7 @@
 #include "hittable_list.h"
 #include "rtweekend.h"
 #include "sphere.h"
+#include "camera.h"
 // using namespace std;
 
 /*
@@ -40,28 +41,6 @@ double hit_sphere(const point3& center, double radius, const ray& r){
     return (-half_b - std::sqrt(discr)) / a;
 }
 
-//The ray_color(ray) function linearly blends white and blue depending on the height of the y
-//coordinate after scaling the ray direction to unit length (so −1.0<y<1.0)
-// color ray_color(const ray& r){
-//     // Now we want to check if the ray hits a sphere at coordinate 0,0,-1 with radius 0.5
-//     auto t = hit_sphere(point3(0,0,-1), 0.5, r);
-//     // t > 0 implies that a root was found
-//     if (t  > 0){
-//         // The normal is taken by P - C, i.e., pointing outwards from the center of the sphere towards the hit point
-//         // We are taking the unit vector of the normal
-//         vec3 normal = unit_vector(r.at(t) - point3(0,0,-1));
-//         // Give a color to the normal that varies depending on the values of the unit vector of the normal
-//         return 0.5 * color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
-//     }
-//     vec3 unit_dir = unit_vector(r.direction());
-//     // Choosing a point on the ray
-//     t = 0.5 * (unit_dir.y() + 1.0);
-//     // When t=1.0 I want blue. When t=0.0 I want white. In between, I want a blend. 
-//     // This forms a “linear blend”, or “linear interpolation”, or “lerp” for short, between two things.
-//     color c = (1 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
-//     return c;
-// }
-
 color ray_color(const ray& r, const hittable& world) {
     hit_record rec;
     // Check if the ray hits any hittable object
@@ -81,7 +60,7 @@ int main()
     // Image dimensions. const not needed, but good practice
     const int image_width = 400;
     const int image_height = image_width / aspect_ratio;
-
+    const int samples_pixel = 100;
     // https://en.wikipedia.org/wiki/Netpbm#PPM_example
     /*
      "P3" means this is a RGB color image in ASCII
@@ -116,18 +95,7 @@ int main()
     */
 
 
-    // Define the camera
-    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
-
-    auto origin = point3(0, 0, 0);
-    auto horizontal = vec3(viewport_width, 0, 0);
-    auto vertical = vec3(0, viewport_height, 0);
-
-    // If viewport_width was 800, height 600, and focal length 1, then lower_left_corner would be (-400, -300, -1)
-    auto lower_left_corner = origin - horizontal/2 - vertical/2 - vec3(0, 0, focal_length);
-
+    camera cam;
     // Add the hittable list of objects, two spheres currently
     hittable_list world;
     world.add(make_shared<sphere>(point3(0,0,-1), 0.5));
@@ -136,29 +104,15 @@ int main()
     for(int j = image_height - 1; j >= 0; j--){
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for(int i = 0; i < image_width; i++){
-            // u and v act as offsets
-            auto u = double(i) / (image_width - 1);
-            auto v = double(j) / (image_height - 1);
-
-            /*
-            Since j is iterating over image height, double(j) / (image_height - 1); is a ratio of the height
-            Multiplying this ratio with the vertical height of the viewport, we get the y direction of the ray
-            
-            Similarly, i gives us width, so double(i) / (image_width - 1) * horizontal gives the width of the viewport
-            
-            The ray is calculated according to the viewport because the viewport represents 
-            the 2D plane in space where the virtual image is projected
-
-            Rays go from the camera origin to the viewport, and the viewport is a plane in space
-            The rays then go from the pixel on the viewport to the objects in the scene
-            */
-            // The - origin is the camera origin
-            ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
-            // Using header imported functions
-
-            // Now check if the ray hits the list of hittable objects
-            color pixel_color = ray_color(r, world);
-            write_color(std::cout, pixel_color);
+            color pixel_color(0, 0, 0);
+            for (int k = 0; k < samples_pixel; k++){
+                // u and v act as offsets
+                auto u = double(i) / (image_width - 1);
+                auto v = double(j) / (image_height - 1);
+                ray r = cam.get_ray(u, v);
+                pixel_color += ray_color(r, world);
+            }
+            write_color(std::cout, pixel_color, samples_pixel);
         }
     }
     std::cerr << "\nDone\n" << std::flush;

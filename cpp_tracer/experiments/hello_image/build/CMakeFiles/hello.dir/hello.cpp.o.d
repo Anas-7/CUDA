@@ -172,10 +172,7 @@ CMakeFiles/hello.dir/hello.cpp.o: \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/color.h \
  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/vec3.h \
- /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/ray.h \
- /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/hittable_list.h \
- /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/hittable.h \
- /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/ray.h \
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/rtweekend.h \
  /usr/include/c++/11/memory /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_tempbuf.h \
  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
@@ -195,9 +192,14 @@ CMakeFiles/hello.dir/hello.cpp.o: \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
- /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/vector \
- /usr/include/c++/11/bits/stl_vector.h \
+ /usr/include/c++/11/pstl/execution_defs.h \
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/ray.h \
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/ray.h \
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/hittable_list.h \
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/hittable.h \
+ /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc \
  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/rtweekend.h \
- /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/sphere.h
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/sphere.h \
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/camera.h

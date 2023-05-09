@@ -243,7 +243,9 @@ CMakeFiles/hello.dir/hello.cpp.o: /home/mmudassir/cuda_cpp/cpp_tracer/experiment
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/rtweekend.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/sphere.h
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/sphere.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/camera.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/rtweekend.h
 
 
 /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/sphere.h:
@@ -297,6 +299,8 @@ CMakeFiles/hello.dir/hello.cpp.o: /home/mmudassir/cuda_cpp/cpp_tracer/experiment
 /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/camera.h:
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
