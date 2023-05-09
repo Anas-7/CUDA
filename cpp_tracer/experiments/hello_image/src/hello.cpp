@@ -48,7 +48,9 @@ color ray_color(const ray& r, const hittable& world, int depth) {
     This problem is called Shadow Acne
     */
     if (world.hit(r, 0.001, infinity, rec)) {
-        point3 target = rec.p + rec.normal + random_in_unit_sphere();
+        // point3 target = rec.p + rec.normal + random_in_unit_sphere();
+        // The line below calculates the True Lambertian reflection instead of the rejection method in the above line
+        point3 target = rec.p + rec.normal + random_unit_vector();
         return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth-1);
     }
     // Otherwise display the background gradient

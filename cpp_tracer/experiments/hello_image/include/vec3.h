@@ -119,13 +119,17 @@ inline vec3 cross(const vec3 &u, const vec3 &v) {
 inline vec3 unit_vector(vec3 v) {
     return v / v.length();
 }
-
+// This was for the diffuse part, where we want a point within a unit sphere created at the tangent of the hit point 
 vec3 random_in_unit_sphere() {
     while (true) {
         auto p = vec3::random(-1,1);
         if (p.length() * p.length() >= 1) continue;
         return p;
     }
+}
+// For calculating True Lambertian reflection
+vec3 random_unit_vector() {
+    return unit_vector(random_in_unit_sphere());
 }
 
 #endif // VEC3_H
