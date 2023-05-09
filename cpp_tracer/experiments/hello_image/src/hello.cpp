@@ -2,6 +2,9 @@
 #include "vec3.h"
 #include "color.h"
 #include "ray.h"
+#include "hittable_list.h"
+#include "rtweekend.h"
+#include "sphere.h"
 // using namespace std;
 
 /*
@@ -39,24 +42,36 @@ double hit_sphere(const point3& center, double radius, const ray& r){
 
 //The ray_color(ray) function linearly blends white and blue depending on the height of the y
 //coordinate after scaling the ray direction to unit length (so −1.0<y<1.0)
-color ray_color(const ray& r){
-    // Now we want to check if the ray hits a sphere at coordinate 0,0,-1 with radius 0.5
-    auto t = hit_sphere(point3(0,0,-1), 0.5, r);
-    // t > 0 implies that a root was found
-    if (t  > 0){
-        // The normal is taken by P - C, i.e., pointing outwards from the center of the sphere towards the hit point
-        // We are taking the unit vector of the normal
-        vec3 normal = unit_vector(r.at(t) - point3(0,0,-1));
-        // Give a color to the normal that varies depending on the values of the unit vector of the normal
-        return 0.5 * color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
+// color ray_color(const ray& r){
+//     // Now we want to check if the ray hits a sphere at coordinate 0,0,-1 with radius 0.5
+//     auto t = hit_sphere(point3(0,0,-1), 0.5, r);
+//     // t > 0 implies that a root was found
+//     if (t  > 0){
+//         // The normal is taken by P - C, i.e., pointing outwards from the center of the sphere towards the hit point
+//         // We are taking the unit vector of the normal
+//         vec3 normal = unit_vector(r.at(t) - point3(0,0,-1));
+//         // Give a color to the normal that varies depending on the values of the unit vector of the normal
+//         return 0.5 * color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
+//     }
+//     vec3 unit_dir = unit_vector(r.direction());
+//     // Choosing a point on the ray
+//     t = 0.5 * (unit_dir.y() + 1.0);
+//     // When t=1.0 I want blue. When t=0.0 I want white. In between, I want a blend. 
+//     // This forms a “linear blend”, or “linear interpolation”, or “lerp” for short, between two things.
+//     color c = (1 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+//     return c;
+// }
+
+color ray_color(const ray& r, const hittable& world) {
+    hit_record rec;
+    // Check if the ray hits any hittable object
+    if (world.hit(r, 0, infinity, rec)) {
+        return 0.5 * (rec.normal + color(1,1,1));
     }
-    vec3 unit_dir = unit_vector(r.direction());
-    // Choosing a point on the ray
-    t = 0.5 * (unit_dir.y() + 1.0);
-    // When t=1.0 I want blue. When t=0.0 I want white. In between, I want a blend. 
-    // This forms a “linear blend”, or “linear interpolation”, or “lerp” for short, between two things.
-    color c = (1 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
-    return c;
+    // Otherwise display the background gradient
+    vec3 unit_direction = unit_vector(r.direction());
+    auto t = 0.5*(unit_direction.y() + 1.0);
+    return (1.0-t)*color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
 }
 
 int main()
@@ -101,7 +116,6 @@ int main()
     */
 
 
-
     // Define the camera
     auto viewport_height = 2.0;
     auto viewport_width = aspect_ratio * viewport_height;
@@ -113,6 +127,11 @@ int main()
 
     // If viewport_width was 800, height 600, and focal length 1, then lower_left_corner would be (-400, -300, -1)
     auto lower_left_corner = origin - horizontal/2 - vertical/2 - vec3(0, 0, focal_length);
+
+    // Add the hittable list of objects, two spheres currently
+    hittable_list world;
+    world.add(make_shared<sphere>(point3(0,0,-1), 0.5));
+    world.add(make_shared<sphere>(point3(0,-100.5,-1), 100));
 
     for(int j = image_height - 1; j >= 0; j--){
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
@@ -136,7 +155,9 @@ int main()
             // The - origin is the camera origin
             ray r(origin, lower_left_corner + u * horizontal + v * vertical - origin);
             // Using header imported functions
-            color pixel_color = ray_color(r);
+
+            // Now check if the ray hits the list of hittable objects
+            color pixel_color = ray_color(r, world);
             write_color(std::cout, pixel_color);
         }
     }

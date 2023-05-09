@@ -11,7 +11,7 @@ class sphere : public hittable{
         double radius;
     public:
         sphere(){}
-        sphere(point3& c, double r): center(c), radius(r){};
+        sphere(point3 c, double r): center(c), radius(r){};
 
         // Override function defined in hittable.h
         virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const override;
