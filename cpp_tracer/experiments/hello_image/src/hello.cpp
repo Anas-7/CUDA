@@ -4,9 +4,25 @@
 #include "ray.h"
 // using namespace std;
 
+bool hit_sphere(const point3& center, double radius, const ray& r){
+    vec3 pc = (r.origin() - center);
+    auto a = dot(r.direction(), r.direction());
+    auto b = 2.0 * dot(pc, r.direction());
+    auto c = dot(pc,pc) - radius*radius;
+    auto discr = b*b - 4*a*c;
+    if (discr < 0){
+        return false;
+    }
+    return true;
+}
+
 //The ray_color(ray) function linearly blends white and blue depending on the height of the y
 //coordinate after scaling the ray direction to unit length (so −1.0<y<1.0)
 color ray_color(const ray& r){
+    // Now we want to check if the ray hits a sphere at coordinate 0,0,-1 with radius 0.5
+    if (hit_sphere(point3(0,0,-1), 0.5, r)){
+        return color(1,0,0);
+    }
     vec3 unit_dir = unit_vector(r.direction());
     // Choosing a point on the ray
     auto t = 0.5 * (unit_dir.y() + 1.0);
