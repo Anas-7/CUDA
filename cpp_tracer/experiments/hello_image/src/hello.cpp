@@ -20,17 +20,9 @@ int main()
     for(int j = image_height - 1; j >= 0; j--){
         std::cerr << "\rScanlines remaining: " << j << ' ' << std::flush;
         for(int i = 0; i < image_width; i++){
-            // The values stored in r g b are floats, but they are casted to int when written to the file
-            auto r = double(i) / (image_width - 1);
-            auto g = double(j) / (image_height - 1);
-            auto b = 0.25;
-            
-            // Could have used normal (int) cast, but static_cast is more strict and runs at compile time
-            int ir = static_cast<int>(255.999 * r);
-            int ig = static_cast<int>(255.999 * g);
-            int ib = static_cast<int>(255.999 * b);
-
-            std::cout << ir << ' ' << ig << ' ' << ib << '\n';
+            // Using header imported functions
+            color pixel_color(double(i) / (image_width - 1), double(j) / (image_height - 1), 0.25);
+            write_color(std::cout, pixel_color);
         }
     }
     std::cerr << "\nDone\n" << std::flush;
