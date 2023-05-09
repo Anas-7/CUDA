@@ -6,26 +6,7 @@
 #include "rtweekend.h"
 #include "sphere.h"
 #include "camera.h"
-// using namespace std;
 
-/*
- the equation for a sphere centered at the origin of radius R is x^2+y^2+z^2=R^2
-
- if the sphere center is at (Cx,Cy,Cz): (x−Cx)^2+(y−Cy)^2+(z−Cz)^2=r^2
-
- Center C = vec(Cx, Cy, Cz)
- Point P = vec(x, y, z)
-
- (P - C).(P - C) = r^2
-
- But P = A + tB
- (A + tB - C).(A + tB - C) = r^2
- t^2(b*b) + 2*t*b*(A−C) + (A−C)⋅(A−C)−r^2=0
-
- The roots of this give the intersection points of the ray
- 0 roots => no intersection, 1 root => tangent, 2 root => 2 points on sphere
-
-*/
 double hit_sphere(const point3& center, double radius, const ray& r){
     vec3 pc = (r.origin() - center);
     auto a = dot(r.direction(), r.direction());
@@ -53,6 +34,23 @@ color ray_color(const ray& r, const hittable& world) {
     return (1.0-t)*color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
 }
 
+color ray_color(const ray& r, const hittable& world, int depth) {
+    hit_record rec;
+
+     // If we've exceeded the ray bounce limit, no more light is gathered.
+    if (depth <= 0)
+        return color(0,0,0);
+
+    if (world.hit(r, 0, infinity, rec)) {
+        point3 target = rec.p + rec.normal + random_in_unit_sphere();
+        return 0.5 * ray_color(ray(rec.p, target - rec.p), world, depth-1);
+    }
+    // Otherwise display the background gradient
+    vec3 unit_direction = unit_vector(r.direction());
+    auto t = 0.5*(unit_direction.y() + 1.0);
+    return (1.0-t)*color(1.0, 1.0, 1.0) + t*color(0.5, 0.7, 1.0);
+}
+
 int main()
 {
     // For the camera
@@ -61,39 +59,9 @@ int main()
     const int image_width = 400;
     const int image_height = image_width / aspect_ratio;
     const int samples_pixel = 100;
-    // https://en.wikipedia.org/wiki/Netpbm#PPM_example
-    /*
-     "P3" means this is a RGB color image in ASCII
-     "256 256" is the width and height of the image in pixels
-     "255" is the maximum value for each color
-    */
+    const int depth = 50;
+
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";
-    /*
-    (1) calculate the ray from the eye to the pixel, 
-    (2) determine which objects the ray intersects, and 
-    (3) compute a color for that intersection point.
-
-    In addition to setting up the pixel dimensions for the rendered image, 
-    we also need to set up a virtual viewport through which to pass our scene rays
-
-    For the standard square pixel spacing, the viewport's aspect ratio should be the same as our rendered image
-    We'll just pick a viewport two units in height.
-    
-    We'll also set the distance between the projection plane and the projection point to be one unit. 
-    This is referred to as the “focal length”
-
-    Put the “eye” (or camera center if you think of a camera) at (0,0,0)
-    
-    y-axis goes up, and the x-axis to the right. 
-    In order to respect the convention of a right handed coordinate system, into the screen is the negative z-axis
-
-    Traverse the screen from the upper left hand corner, and use two offset vectors u and v along the screen sides to move the ray endpoint across the screen.
-    
-    Note that we havent made the ray direction a unit length vector, but do so in the ray_color function
-
-
-    */
-
 
     camera cam;
     // Add the hittable list of objects, two spheres currently
@@ -110,7 +78,7 @@ int main()
                 auto u = (i + random_double()) / (image_width-1);
                 auto v = (j + random_double()) / (image_height-1);
                 ray r = cam.get_ray(u, v);
-                pixel_color += ray_color(r, world);
+                pixel_color += ray_color(r, world, depth);
             }
             write_color(std::cout, pixel_color, samples_pixel);
         }

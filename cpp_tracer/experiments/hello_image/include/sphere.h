@@ -31,11 +31,12 @@ bool sphere::hit(const ray& r, double t_min, double t_max, hit_record& rec) cons
     // Find the root that lies in the acceptable range
     auto root = (-half_b - sqrt_discr) / a;
     // If it violates any condition
-    if (root < t_min || root > t_max){
+    // The diffuse issue was fixed by this: https://github.com/RayTracing/raytracing.github.io/issues/875#issuecomment-1013842362
+    if (root <= t_min || root >= t_max){
         // Assign the other root
         root = (-half_b + sqrt_discr) / a;
         // Check if this violates the condition too
-        if (root < t_min || root > t_max){
+        if (root <= t_min || root >= t_max){
             return false;
         }
     }

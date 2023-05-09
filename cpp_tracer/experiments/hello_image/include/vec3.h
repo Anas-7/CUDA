@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <cstdlib>
 
 class vec3{
     public:
@@ -53,6 +54,22 @@ class vec3{
             return std::sqrt((e[0] * e[0]) + (e[1] * e[1]) + (e[2] * e[2]));
         }
 
+        inline static double rd(){
+            // Returns a random real in [0,1).
+            return rand() / (RAND_MAX + 1.0);
+        }
+        inline static double rd(double min, double max) {
+            // Returns a random real in [min,max).
+            return min + (max-min)*rd();
+        }
+        inline static vec3 random() {
+            return vec3(rd(), rd(), rd());
+        }
+
+        inline static vec3 random(double min, double max) {
+            return vec3(rd(min,max), rd(min,max), rd(min,max));
+        }
+
 };
 
 // Setting alias
@@ -101,6 +118,14 @@ inline vec3 cross(const vec3 &u, const vec3 &v) {
 
 inline vec3 unit_vector(vec3 v) {
     return v / v.length();
+}
+
+vec3 random_in_unit_sphere() {
+    while (true) {
+        auto p = vec3::random(-1,1);
+        if (p.length() * p.length() >= 1) continue;
+        return p;
+    }
 }
 
 #endif // VEC3_H
