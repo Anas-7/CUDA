@@ -171,4 +171,5 @@ CMakeFiles/hello.dir/hello.cpp.o: \
  /usr/include/c++/11/tr1/poly_laguerre.tcc \
  /usr/include/c++/11/tr1/riemann_zeta.tcc \
  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/color.h \
- /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/vec3.h
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/vec3.h \
+ /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/src/../include/ray.h

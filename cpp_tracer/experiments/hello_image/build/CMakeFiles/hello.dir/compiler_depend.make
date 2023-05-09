@@ -208,8 +208,11 @@ CMakeFiles/hello.dir/hello.cpp.o: /home/mmudassir/cuda_cpp/cpp_tracer/experiment
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
   /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/color.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/vec3.h
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/vec3.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h
 
+
+/home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h:
 
 /usr/include/c++/11/tr1/riemann_zeta.tcc:
 
