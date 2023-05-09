@@ -4,28 +4,55 @@
 #include "ray.h"
 // using namespace std;
 
-bool hit_sphere(const point3& center, double radius, const ray& r){
+/*
+ the equation for a sphere centered at the origin of radius R is x^2+y^2+z^2=R^2
+
+ if the sphere center is at (Cx,Cy,Cz): (x−Cx)^2+(y−Cy)^2+(z−Cz)^2=r^2
+
+ Center C = vec(Cx, Cy, Cz)
+ Point P = vec(x, y, z)
+
+ (P - C).(P - C) = r^2
+
+ But P = A + tB
+ (A + tB - C).(A + tB - C) = r^2
+ t^2(b*b) + 2*t*b*(A−C) + (A−C)⋅(A−C)−r^2=0
+
+ The roots of this give the intersection points of the ray
+ 0 roots => no intersection, 1 root => tangent, 2 root => 2 points on sphere
+
+*/
+double hit_sphere(const point3& center, double radius, const ray& r){
     vec3 pc = (r.origin() - center);
     auto a = dot(r.direction(), r.direction());
-    auto b = 2.0 * dot(pc, r.direction());
-    auto c = dot(pc,pc) - radius*radius;
+    // auto b = 2.0 * dot(pc, r.direction());  Assume b = 2h and simplify the operations by using h
+    auto half_b = dot(pc, r.direction());
+    // auto c = dot(pc,pc) - radius*radius;    Dot product of a vector with itself can be replaced with its length squared
+    auto c = pc.length() * pc.length() - radius*radius;
     auto discr = b*b - 4*a*c;
     if (discr < 0){
-        return false;
+        return -1;
     }
-    return true;
+    // Since we arent assuming the case for t < 0, we will choose the closest root to us from the quadratic equation
+    return (-half_b - std::sqrt(discr)) / a;
 }
 
 //The ray_color(ray) function linearly blends white and blue depending on the height of the y
 //coordinate after scaling the ray direction to unit length (so −1.0<y<1.0)
 color ray_color(const ray& r){
     // Now we want to check if the ray hits a sphere at coordinate 0,0,-1 with radius 0.5
-    if (hit_sphere(point3(0,0,-1), 0.5, r)){
-        return color(1,0,0);
+    auto t = hit_sphere(point3(0,0,-1), 0.5, r);
+    // t > 0 implies that a root was found
+    if (t  > 0){
+        // The normal is taken by P - C, i.e., pointing outwards from the center of the sphere towards the hit point
+        // We are taking the unit vector of the normal
+        vec3 normal = unit_vector(r.at(t) - point3(0,0,-1));
+        // Give a color to the normal that varies depending on the values of the unit vector of the normal
+        return 0.5 * color(normal.x() + 1, normal.y() + 1, normal.z() + 1);
     }
     vec3 unit_dir = unit_vector(r.direction());
     // Choosing a point on the ray
-    auto t = 0.5 * (unit_dir.y() + 1.0);
+    t = 0.5 * (unit_dir.y() + 1.0);
     // When t=1.0 I want blue. When t=0.0 I want white. In between, I want a blend. 
     // This forms a “linear blend”, or “linear interpolation”, or “lerp” for short, between two things.
     color c = (1 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
