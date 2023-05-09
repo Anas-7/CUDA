@@ -209,10 +209,7 @@ CMakeFiles/hello.dir/hello.cpp.o: /home/mmudassir/cuda_cpp/cpp_tracer/experiment
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
   /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/color.h \
   /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/vec3.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/hittable_list.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/hittable.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/rtweekend.h \
   /usr/include/c++/11/memory \
   /usr/include/c++/11/bits/stl_uninitialized.h \
   /usr/include/c++/11/bits/stl_tempbuf.h \
@@ -238,14 +235,17 @@ CMakeFiles/hello.dir/hello.cpp.o: /home/mmudassir/cuda_cpp/cpp_tracer/experiment
   /usr/include/c++/11/backward/auto_ptr.h \
   /usr/include/c++/11/pstl/glue_memory_defs.h \
   /usr/include/c++/11/pstl/execution_defs.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/hittable_list.h \
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/hittable.h \
   /usr/include/c++/11/vector \
   /usr/include/c++/11/bits/stl_vector.h \
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/rtweekend.h \
   /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/sphere.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/camera.h \
-  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/rtweekend.h
+  /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/camera.h
 
 
 /home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/sphere.h:
@@ -253,6 +253,8 @@ CMakeFiles/hello.dir/hello.cpp.o: /home/mmudassir/cuda_cpp/cpp_tracer/experiment
 /usr/include/c++/11/bits/vector.tcc:
 
 /usr/include/c++/11/bits/stl_bvector.h:
+
+/home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h:
 
 /usr/include/c++/11/bits/shared_ptr_atomic.h:
 
@@ -275,8 +277,6 @@ CMakeFiles/hello.dir/hello.cpp.o: /home/mmudassir/cuda_cpp/cpp_tracer/experiment
 /usr/include/c++/11/bits/stl_uninitialized.h:
 
 /usr/include/c++/11/memory:
-
-/home/mmudassir/cuda_cpp/cpp_tracer/experiments/hello_image/include/ray.h:
 
 /usr/include/c++/11/tr1/riemann_zeta.tcc:
 

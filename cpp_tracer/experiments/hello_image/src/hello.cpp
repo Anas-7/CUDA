@@ -107,8 +107,8 @@ int main()
             color pixel_color(0, 0, 0);
             for (int k = 0; k < samples_pixel; k++){
                 // u and v act as offsets
-                auto u = double(i) / (image_width - 1);
-                auto v = double(j) / (image_height - 1);
+                auto u = (i + random_double()) / (image_width-1);
+                auto v = (j + random_double()) / (image_height-1);
                 ray r = cam.get_ray(u, v);
                 pixel_color += ray_color(r, world);
             }
